@@ -28,7 +28,6 @@ package com.stremebase.examples.todomvc;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import com.stremebase.base.DB;
 import com.stremebase.dal.Table;
 
@@ -36,6 +35,8 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.SingleThreadEventLoop;
+import io.netty.channel.ThreadPerChannelEventLoop;
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.oio.OioServerSocketChannel;
@@ -103,7 +104,7 @@ public class Todo
 
     .POST("/",              POST)
     .POST("/delete",        DELETE)
-    .POST("/clearcompleted",        DELETECOMPLETED)    
+    .POST("/clearcompleted",        DELETECOMPLETED)
     .POST("/toggle-status", TOGGLESTATUS)
 
     .GET(":something/index.css", CSS)
@@ -113,7 +114,7 @@ public class Todo
     System.out.println(router);
 
     OioEventLoopGroup bossGroup   = new OioEventLoopGroup(1);
-    OioEventLoopGroup workerGroup = new OioEventLoopGroup();
+    SingleThreadEventLoop workerGroup = new ThreadPerChannelEventLoop(bossGroup);
 
     try
     {
@@ -121,6 +122,7 @@ public class Todo
       b.group(bossGroup, workerGroup)
       .childOption(ChannelOption.TCP_NODELAY, java.lang.Boolean.TRUE)
       .childOption(ChannelOption.SO_KEEPALIVE, java.lang.Boolean.TRUE)
+      .childOption(ChannelOption.SO_REUSEADDR, java.lang.Boolean.TRUE)
       .channel(OioServerSocketChannel.class)
       .childHandler(new HttpRouterServerInitializer(router));
 
@@ -155,7 +157,7 @@ public class Todo
 
   public static String create(String text)
   {
-    data.createItem(text);
+    if (text!=null) data.createItem(text);
     return views.index.template(data).render().toString();
   }
 

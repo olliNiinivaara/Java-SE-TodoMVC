@@ -4,57 +4,58 @@
 
 <!doctype html>
 <html lang="en">
-    <head>
+	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Java 8 SE - Stremebase • Server-side TodoMVC</title>
+		<title>Java 8 SE - Stremebase • Server-side TodoMVC</title>
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
-	   <section class="todoapp">
-	       <header class="header">
-	           <h1>todos</h1>
-                <form action="/" method="post">
-                     <input type="text" name="item-text" placeholder="What needs to be done?" autocomplete="off" autofocus class="new-todo">
-                </form>
+		<section class="todoapp">
+		       <header class="header">
+		       		<h1>todos</h1>
+	                	<form action="/" method="post">
+	                	     <input type="text" name="item-text" placeholder="What needs to be done?" autocomplete="off" autofocus class="new-todo">
+	                	</form>
 			</header>
       
-            @if (!data.nothingToSee)
-            {
-			     <section class="main">        
-		              <ul class="todo-list">         					
-                            @views.items.template(data)
-                      </ul>						
-			     </section>
-            }
+	            	@if (!data.nothingToSee)
+	            	{
+				<section class="main">        
+			 		<ul class="todo-list">         					
+	                 	        	@views.items.template(data)
+	                      		</ul>						
+				</section>
+	        	}
 
-            @if (data.totalCount>0)
-            {
-			     <footer class="footer">
-                    <span class="todo-count"><strong>@data.activeCount</strong> items left</span>
-				    <ul class="filters">
-                        <li><a href="/filter/@Data.FILTERALL" @if (!data.useFilter) {class="selected" class="is-active"}>All</a></li>
-                        <li><a href="/filter/active" @if (data.useFilter && data.shownOnlyCompleted==0) {class="selected"}>Active</a></li>
-                        <li><a href="/filter/@Data.FILTERCOMPLETED" @if (data.useFilter && data.shownOnlyCompleted==1) {class="selected" class="is-active"}>Completed</a></li>
-				    </ul>
-                    @if (data.totalCount-data.activeCount>0)
-                    {
-                        <form action="clearcompleted" method="post">
-                            <input type="hidden" name="method" value="delete" />
-                            <button class="clear-completed"><span>Clear completed (@data.totalCount-data.activeCount)</span></button>
-                        </form>
-                    }
-			     </footer>
-            }
+	            	@if (data.totalCount>0)
+	            	{
+				<footer class="footer">
+	                	<span class="todo-count"><strong>@data.activeCount</strong> items left</span>
+				<ul class="filters">
+	                        	<li><a href="/filter/@Data.FILTERALL" @if (!data.useFilter) {class="selected" class="is-active"}>All</a></li>
+	                        	<li><a href="/filter/active" @if (data.useFilter && data.shownOnlyCompleted==0) {class="selected"}>Active</a></li>
+	                        	<li><a href="/filter/@Data.FILTERCOMPLETED" @if (data.useFilter && data.shownOnlyCompleted==1) {class="selected" class="is-active"}>Completed</a></li>
+				</ul>
+	                    	@if (data.totalCount-data.activeCount>0)
+	                    	{
+	                        	<form action="/clearcompleted" method="post">
+	                            		<input type="hidden" name="method" value="delete" />
+	                            		<button class="clear-completed"><span>Clear completed (@data.totalCount-data.activeCount)</span></button>
+	                        	</form>
+	                    	}
+				</footer>
+	            	}
 		</section>
+
 		<footer class="info">
-            <p>Click on the text to edit a todo.</p>
-            <p>
-                Original template by <a href="http://github.com/sindresorhus">Sindre Sorhus</a>
-                <br /> Reworked by <a href="http://github.com/olle">Olle Törnström</a>
-            </p>
-            <p>Created by <a href="https://sites.google.com/site/olliniinivaara/">Olli Niinivaara</a></p>
+            		<p>Click on the text to edit a todo.</p>
+            		<p>
+                		Original template by <a href="http://github.com/sindresorhus">Sindre Sorhus</a>
+                		<br /> Reworked by <a href="http://github.com/olle">Olle Törnström</a>
+            		</p>
+            		<p>Created by <a href="https://github.com/olliNiinivaara">Olli Niinivaara</a></p>
 		</footer>
-        <!-- Look ma, no Java EE! -->
+        	<!-- Look ma, no Java EE! -->
 	</body>
 </html>

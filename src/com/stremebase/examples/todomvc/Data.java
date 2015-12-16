@@ -151,6 +151,6 @@ public class Data extends Table
   private void checkVisibility()
   {
     if (!useFilter) nothingToSee = totalCount==0;
-    else nothingToSee = (shownOnlyCompleted==1 && totalCount>activeCount) || (shownOnlyCompleted==0 && activeCount>0);
+    else nothingToSee = (shownOnlyCompleted==1 && totalCount==activeCount) || (shownOnlyCompleted==0 && activeCount==0);
   }
 }
