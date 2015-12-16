@@ -1,0 +1,36 @@
+@import com.stremebase.examples.todomvc.Data
+
+@args (Data data)
+
+<script>
+function submitText(textinput)
+{
+  if (textinput.value != textinput.defaultValue) textinput.form.submit();
+}
+</script>
+
+@for (key: data.getItems())
+{
+    <li>
+	   <div class="view">	  
+	       <div style="position: relative; overflow: hidden;">
+                <div style="display: inline-block; width: 40px; height: 40px; position: relative; float: left;">
+                    <form action="/toggle-status" method="post" class="item-toggle-completed">
+    	               <input type="hidden" name="item-id" value="@key" />
+    	               <input class="toggle" type="checkbox" @if (data.isCompleted(key)) {checked} onclick="this.form.submit();"> 
+                    </form>
+                </div>
+                <div style="position: relative; overflow: hidden;">
+    	           <form action="/" method="post" class="">
+		              <input type="hidden" name="item-id" value="@key" />
+		              <input type="text" name="item-text" value="@data.getText(key)" onchange="submitText(this)"@if (data.isCompleted(key)) {disabled} autocomplete="off" class="new-todo"/>
+		          </form>
+                </div>
+            </div>
+            <form action="delete" method="post" class="item-delete">
+                <input type="hidden" name="item-id" value="@key" />
+                <button class="destroy"></button>
+            </form>
+		</div>
+	</li>
+}
